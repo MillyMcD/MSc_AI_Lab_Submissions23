@@ -26,5 +26,25 @@ class Module:
     
     def print_module_info(self):
         return "%s, Credits: %s, Department: %s" %(self.module_title, self.credits, self.department)
+    
+def main():
+    student_one=Student("Holly Time",1234567)
+    student_two=Student("Irvine Worm",1234568)
 
+    mod_one=Module("Art",100,"ADM")
+    mod_two=Module("Fashion",120,"ADM")
+    mod_three=Module("AI",100,"CEBE")
 
+    student_one.enrol(mod_one)
+    student_one.enrol(mod_two)
+
+    student_two.enrol(mod_two)
+    student_two.enrol(mod_three)
+
+    student_one.print_student_info()
+    print("")
+    student_two.print_student_info()
+
+main()
+
+#Besher this is soemthing I need to work on, as it was very difficult to complete these tasks!
