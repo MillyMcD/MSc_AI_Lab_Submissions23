@@ -15,14 +15,14 @@ class DatabaseClient:
     dbname : `str`
         The name of the database
     """
-    def __init__(self,username,password,dbname):
+    def __init__(self,username:str,password:str,dbname:str):
         self.login(username,password,dbname)
         if self.__client is not None:
             self.__db = self.__client[dbname]  
         else:
             print('Client not available, check credentials.')
 
-    def login(self,username,password,dbname):
+    def login(self,username:str,password:str,dbname:str):
         """
         Login function. Checks credentials match the mongo database
         
@@ -50,7 +50,7 @@ class DatabaseClient:
             print('Login failed')
             self.__client = None
 
-    def get_all_records(self,collection,as_df=False):
+    def get_all_records(self,collection:str,as_df:bool=False):
         """
         Get all records from a collection in the database
 
@@ -81,7 +81,7 @@ class DatabaseClient:
         else:
             print(f'Collection "{collection}" not found in database. Please insert records')
     
-    def insert_records(self,collection,records:list):
+    def insert_records(self,collection:str,records:list):
         """
         Insert records into a collection
 
@@ -103,5 +103,51 @@ class DatabaseClient:
             True if logged in
         """
         return self.__client is not None
+    
+    def get_database(self):
+        """
+        Return the database
+
+        Returns
+        -------
+        MongoClient database
+        """
+        return self.__db
+
+    def get_client(self):
+        """
+        Return the client
+
+        Returns
+        -------
+        MongoClient database
+        """
+        return self.__client
+
+    def teardown(self):
+        """"
+        teardown the client
+        """
+        self.__client.close()
+
+
+def add_new_user(client:DatabaseClient,username,password):
+    """
+    Give a new user database credentials
+
+    Parameters
+    ----------
+    client : `DatabaseClient`
+        The database client instance
+    username : `str`
+        Your username
+    password: `str`
+        The password
+    """
+    db = client.get_database()
+    db.command('createUser', username, pwd=password, roles=['readWrite'])
+    print(f'Created user {username}')
+
+
 
         

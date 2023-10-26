@@ -1,3 +1,4 @@
+import numpy as np
 from database_client import DatabaseClient
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -77,7 +78,7 @@ class DataLoader:
     
         return X_train, X_test, y_train, y_test
     
-    def prepare_data_inference(self,data):
+    def prepare_data_inference(self,data:np.ndarray):
         """
         Prepare data for inference
 
@@ -91,9 +92,9 @@ class DataLoader:
         `numpy.ndarray`
             The data prepared
         """
-        if hasattr(self,'__scalar'):
-            return self.__scalar.transform(data)
-        else:
+        try:
+            return self.__scaler.transform(data)
+        except:
             print('Cannot infer normalisation stats from training data. Make sure you have parsed it')
 
 

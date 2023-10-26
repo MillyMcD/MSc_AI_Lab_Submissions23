@@ -10,5 +10,8 @@ source pulsar_classification_env/bin/activate
 #this is done by using a requirements.txt file which stores them all
 pip3 install --upgrade -r requirements.txt
 
+#now run the setup to demonstrate this project, get the dataset into mongo and create authentication.
+python3 create_mongo_auth.py
+
 #now deactivate, our environment is ready for use
 deactivate

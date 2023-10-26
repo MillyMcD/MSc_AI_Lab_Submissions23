@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import accuracy_score
@@ -14,7 +15,7 @@ class Predictor:
         self.__model = DecisionTreeClassifier()
         self.__fitted = False
     
-    def train(self,X,y):
+    def train(self,X:np.ndarray,y:np.ndarray):
         """
         Train the model.
 
@@ -28,7 +29,7 @@ class Predictor:
         self.__model.fit(X,y)
         self.__fitted = True
 
-    def report_performance(self,X_test,y_test):
+    def report_performance(self,X_test:np.ndarray,y_test:np.ndarray):
         """
         Determine the performance of the trained model using the test data
 
@@ -46,12 +47,12 @@ class Predictor:
         """
         pred = self.__model.predict(X_test)
 
-        return {'accuracy':accuracy_score(y_test,pred),
-                'precision':precision_score(y_test,pred),
-                'recall':recall_score(y_test,pred),
-                'F1':f1_score(y_test,pred)}
+        return {'accuracy':f'{accuracy_score(y_test,pred):.3f}',
+                'precision':f'{precision_score(y_test,pred):.3f}',
+                'recall':f'{recall_score(y_test,pred):.3f}',
+                'f1':f'{f1_score(y_test,pred):.3f}'}
     
-    def infer(self,data,return_prob=False):
+    def infer(self,data:np.ndarray,return_prob:bool=False):
         """
         Make a prediction for a single sample
 
@@ -81,6 +82,28 @@ class Predictor:
         #else return the class
         else:
             return self.__model.predict(data)
+    
+    def is_fitted(self):
+        """
+        Determine if the model has been fitted.
+
+        Returns
+        -------
+        `bool`
+            if fitted or not
+        """
+        return self.__fitted
+
+    def get_model(self):
+        """"
+        Get the model class
+
+        Returns
+        -------
+        sklearn.tree.DecisionTreeClassifier
+        """
+        return self.__model
+
         
 
         

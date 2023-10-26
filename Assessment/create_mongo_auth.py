@@ -10,11 +10,14 @@ class ConstructAuthDB():
         #create a mongo client
         self.__client = pymongo.MongoClient()
 
+        self.__client.drop_database('pulsar_database')
+
         #create a database to store the data
         self.__db = self.__client['pulsar_database']
 
         #this collection stores the raw dataset
         self.__col = self.__db['raw_data']
+
 
     def insert_records(self,path_to_dataset):
         """
@@ -59,17 +62,30 @@ class ConstructAuthDB():
 
 if __name__ == "__main__":
     #get credentials
-    name = input('Please provide a username:\n')
-    password = input('Please provide a password:\n')
-
+    print('#######################################')
+    print('MONGODB DATABASE AND AUTH CONSTRUCTION')
+    print('#######################################')
     #create instance
     cadb = ConstructAuthDB()
 
     #insert the dataset
     cadb.insert_records('PulsarDataset.csv')
 
-    #create a user
-    cadb.create_user(name,password)
+    name     = input('Please provide a username:\n')
+    password = input('Please provide a password:\n')
+
+    #create a user via while loop
+    user_created = False
+    while user_created is False:
+        try:
+            cadb.create_user(name,password)
+            user_created = True
+        except:
+            print('Username already taken, please try another')
+            name     = input('Please provide a username:\n')
+            password = input('Please provide a password:\n')
 
     #teardown instance
     cadb.teardown()
+
+    print('################################')
