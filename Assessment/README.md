@@ -6,7 +6,7 @@ This project uses a virtual environment for deployment. This keeps the host envi
 
 ```
 sh installation.sh
-```, 
+``` 
 
 which will create a virtualenv called `pulsar_classification_env`. This will also use the `create_mongo_auth.py` script to add the `PulsarDataset.csv` into your running instance of MongoDB, before asking you to create a User. If the user is already defined, it will keep asking until your create a valid user.
 
